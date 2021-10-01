@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+    <http:listener-config name="spending-api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="8081" />
+    </http:listener-config>
+    <apikit:config name="spending-api-config" api="resource::8047b9c3-dd3a-4b49-b414-136f87448c77:spending-eapi:1.0.0:raml:zip:spending-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <flow name="spending-api-main">
+        <http:listener config-ref="spending-api-httpListenerConfig" path="/api/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:router config-ref="spending-api-config" />
+        
+    </flow>
+    <flow name="spending-api-console">
+        <http:listener config-ref="spending-api-httpListenerConfig" path="/console/*">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body>#[payload]</http:body>
+                <http:headers>#[vars.outboundHeaders default {}]</http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="spending-api-config" />
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="put:\earnings\(id):application\json:spending-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: 1,
+  owner: 1,
+  amount: 35300,
+  "type": "Sueldo"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="put:\spendings\(id):application\json:spending-api-config">
+        <logger level="INFO" doc:name="Logger" doc:id="1b408028-18b6-4a17-aa52-28fa90437963" message="Starting edit-spending"/>
+		<flow-ref doc:name="common-spending-subflow" doc:id="55841fc5-de3e-4105-96bc-3447544ba0d5" name="common-spending-subflow"/>
+		<flow-ref doc:name="edit-spending" doc:id="c6e60ebf-2fb0-49cf-918c-e555eb52b875" name="edit-spending"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d5514cd3-74f7-4b30-9a95-dac6c7cf6261" message="Ending edit-spending"/>
+    </flow>
+    <flow name="delete:\friends:spending-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+"Friend deleted successfuly"]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="delete:\alarms\(id):spending-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+"Alarm deleted successfuly"]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="delete:\earnings\(id):spending-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+"Earning deleted successfuly"]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="delete:\spendings\(id):spending-api-config">
+        <logger level="INFO" doc:name="Logger" doc:id="3283ed2c-689b-4973-a887-3216d70c7bb1" message="Starting delete-spending"/>
+		<flow-ref doc:name="delete-spending" doc:id="ea6b887a-36da-46ad-96b3-b75771147bdf" name="delete-spending"/>
+		<logger level="INFO" doc:name="Logger" doc:id="31da983c-16b5-4d7d-84ef-462b4b48572d" message="Ending delete-spending"/>
+    </flow>
+    <flow name="get:\alarms:spending-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  example: {
+    value: [
+      {
+        id: 1,
+        owner: 1,
+        description: "Vencimiento factura luz",
+        "type": 1,
+        date: "2021-10-21T00:00:00"
+      }, 
+      {
+        id: 2,
+        owner: 1,
+        description: "No gastar mas en bebidas",
+        "type": 2,
+        date: "2021-12-31T00:00:00",
+        maxAmount: 5000
+      }
+    ]
+  },
+  "type": "Alarm[]"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\earnings:spending-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+  {
+    id: 1,
+    owner: 1,
+    amount: 35300,
+    "type": "Sueldo"
+  }, 
+  {
+    id: 2,
+    owner: 1,
+    amount: 20000,
+    "type": "Plazo fijo"
+  }
+]]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\friends:spending-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+[
+  {
+    id: 1,
+    email: "manuel.rbrizi@gmail.com"
+  }, 
+  {
+    id: 2,
+    email: "manuel.rodriguez@mulesoft.com"
+  }
+]]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\spendings:spending-api-config">
+		<logger level="INFO" doc:name="Logger" doc:id="45a903c4-ca86-469c-835c-8132e03d162e" message="Start get-all-spending"/>
+		<flow-ref doc:name="get-all-spending" doc:id="1373ca78-2250-45c7-9c96-017363e56b04" name="get-all-spending"/>
+		<logger level="INFO" doc:name="payload" doc:id="0554f624-6ff7-4148-b29d-8a21d8cdef7a" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9f37806c-a0d7-4774-898a-cdbefc7b8a15" message="End get-all-spending"/>
+    </flow>
+    <flow name="get:\earnings\(id):spending-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core">
+            <ee:variables>
+                <ee:set-variable variableName="id">attributes.uriParams.'id'</ee:set-variable>
+            </ee:variables>
+        </ee:transform>
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: 1,
+  owner: 1,
+  amount: 35300,
+  "type": "Sueldo"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="get:\spendings\(id):spending-api-config">
+		<logger level="INFO" doc:name="Logger" doc:id="86667582-cd21-4119-bf30-15a35e40d577" message="Starting get-spending-by-id"/>
+		<flow-ref doc:name="get-spending-by-id" doc:id="a43c0e39-1cd5-4e47-96c4-e6da1fd29ed9" name="get-spending-by-id"/>
+		<logger level="INFO" doc:name="payload" doc:id="eb168a0b-df61-40ec-a0ac-b739ef21806d" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="fedeb1fd-d38b-4476-a85b-7d0daf923340" message="Ending get-spending-by-id"/>
+    </flow>
+    <flow name="post:\alarms:application\json:spending-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+"Alarm created successfuly"]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\earnings:application\json:spending-api-config">
+        <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: 1,
+  owner: 1,
+  amount: 35300,
+  "type": "Sueldo"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\friends:application\json:spending-api-config">
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  id: 1,
+  owner: 1,
+  amount: 650,
+  "type": "Mascotas"
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+    </flow>
+    <flow name="post:\spendings:application\json:spending-api-config">
+        <logger level="INFO" doc:name="Logger" doc:id="72a3afe2-9e98-4365-97db-b780d643d79a" message="Starting add-spending flow" />
+		<flow-ref doc:name="common-spending-subflow" doc:id="082e4868-bbdf-44c7-b86d-f069325143fe" name="common-spending-subflow"/>
+		<flow-ref doc:name="add-spending" doc:id="52ac609b-38d1-4daa-9d5a-d32d9e9307ce" name="add-spending" />
+		<logger level="INFO" doc:name="Logger" doc:id="1bf16a6c-b645-420f-b5d1-6863cf116948" message="Ending add-spending flow" />
+    </flow>
+	<flow name="common-spending-subflow" doc:id="a676a7e3-b8e7-434b-ace3-a10bd2b0c139" >
+		<ee:transform doc:name="Transform Message" doc:id="90ec246b-37ef-400b-95e8-6614c16ddb97" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+	id: payload.id,
+	ownerId: payload.owner,
+	typeOf: payload."type",
+	description: payload.description,
+	amount: payload.amount
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

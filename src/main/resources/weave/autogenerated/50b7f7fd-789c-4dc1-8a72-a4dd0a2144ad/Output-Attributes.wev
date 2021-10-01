@@ -1,0 +1,4 @@
+%dw 2.0
+
+type auto_50b7f7fd_789c_4dc1_8a72_a4dd0a2144ad_Output_Attributes = Null
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="edit-spending" doc:id="98a60a91-fb18-446d-860a-fade86017522" >
+		<validation:is-true doc:name="all params present" doc:id="8fa04f79-91e5-4897-9182-9438ebdd77ef" expression="#[attributes.uriParams.id? and payload.ownerId? and payload.typeOf? and payload.description? and payload.amount?]"/>
+		<db:update doc:name="spending" doc:id="0e7a7a21-5ee9-46d0-a613-1198536ef77e" config-ref="Database_Config">
+			<db:sql ><![CDATA[update spending set owner_id = :owner_id, type_of = :type_of, amount = :amount, description = :description where id = :id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	id: attributes.uriParams.id,
+    owner_id: payload.ownerId,
+    type_of: payload.typeOf,
+    description: payload.description,
+    amount: payload.amount
+}]]]></db:input-parameters>
+		</db:update>
+		<set-payload value='#["Successfuly updated spending"]' doc:name="Successfuly updated spending" doc:id="ec570143-b5ac-4482-bfd6-4447aa9a212e" />
+	</flow>
+	<flow name="add-spending" doc:id="e2c40502-5f78-48fc-9b17-2548a34e3247" >
+		<validation:is-true doc:name="all params present" doc:id="2f9bbad2-8480-404e-8e5c-0f6203db0a9a" expression="#[payload.ownerId? and payload.typeOf? and payload.description? and payload.amount?]"/>
+		<db:insert doc:name="spending" doc:id="0cfe4b76-7c0a-4e89-971a-3c5588931614" config-ref="Database_Config">
+			<db:sql ><![CDATA[insert into spending(owner_id, type_of, description, amount) values (:owner_id, :type_of, :description, :amount)]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+    owner_id: payload.ownerId,
+    type_of: payload.typeOf,
+    description: payload.description,
+    amount: payload.amount
+}]]]></db:input-parameters>
+		</db:insert>
+		<set-payload value='#["Successfuly added spending"]' doc:name="Successfuly added spending" doc:id="1a090aa3-fe7a-4e53-ac56-72d6aad72c1d" />
+	</flow>
+	<flow name="get-spending-by-id" doc:id="142cd9c1-b960-4b6d-919f-f535941382c4" >
+		<validation:is-true doc:name="id present" doc:id="3dfda67c-4b2d-4f3d-8756-1bd132c7ad9c" expression="#[attributes.uriParams.id?]"/>
+		<db:select doc:name="spending" doc:id="53e32bbd-0102-4e20-b994-e7058004782e" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from spending where id = :id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	id: attributes.uriParams.id
+}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="3da37f04-fb29-4a8c-a852-185b4f3aa0d1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="get-all-spending" doc:id="50b7f7fd-789c-4dc1-8a72-a4dd0a2144ad" >
+		<db:select doc:name="spending" doc:id="73e1b82d-4fe7-4266-96ac-6122e20222b0" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from spending limit 25]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="dd0b0af3-89f0-440e-a579-bd261625e8a4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="delete-spending" doc:id="d901a986-acc3-4cef-a44f-1ac5322cf977" >
+		<validation:is-true doc:name="all params present" doc:id="3e0891d7-71eb-4889-97e7-cf5f4250a08d" expression="#[attributes.uriParams.id?]"/>
+		<db:delete doc:name="spending" doc:id="915d7ecd-4326-4dbe-954d-c442762fcdfe" config-ref="Database_Config">
+			<db:sql ><![CDATA[delete from spending where id = :id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{
+	id: attributes.uriParams.id
+}]]]></db:input-parameters>
+		</db:delete>
+		<set-payload value='#["Successfuly deleted spending"]' doc:name="Successfuly deleted spending" doc:id="e4ec61fc-c28d-4881-b65a-797bcff26b7f" />
+	</flow>
+</mule>
