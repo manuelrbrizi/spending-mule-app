@@ -1,0 +1,1 @@
+mvn clean deploy -DskipTests -DmuleDeploy -Dmule.env=dev -Dmule.key=xxx -Dmule.server=cloudhub -Dmule.region=us-east-2 -Dmule.workers=1 -Dmule.workerType=MICRO -Dmule.appName="Spending API"
