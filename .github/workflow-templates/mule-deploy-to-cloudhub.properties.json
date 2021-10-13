@@ -1,0 +1,5 @@
+{
+    "name": "Deploy to CloudHub",
+    "description": "Deploy Mule App to CloudHub with Maven",
+    "iconName": "example-icon"
+}
