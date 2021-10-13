@@ -1,0 +1,5 @@
+db:
+  host: "managram.cart5c2nie9n.us-east-2.rds.amazonaws.com"
+  port: "5432"
+  type: "postgres"
+  jdbc: "jdbc:postgresql"
