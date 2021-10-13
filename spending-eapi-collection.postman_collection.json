@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "038990e6-6f80-40f6-a47d-f82615a9769f",
+		"name": "spending-eapi-collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST /spendings",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YWxhZGRpbjpvcGVuc2VzYW1l",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"owner\": 1,\n    \"type\": \"Mascotas\",\n    \"description\": \"alimento teo\",\n    \"amount\": 1000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/spendings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"spendings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /spendings",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YWxhZGRpbjpvcGVuc2VzYW1l",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"owner\": 1,\n    \"type\": \"Animales\",\n    \"description\": \"pulgicida\",\n    \"amount\": 700\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/spendings/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"spendings",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /spendings",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YWxhZGRpbjpvcGVuc2VzYW1l",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/api/spendings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"spendings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /spendings/id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/spendings/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"spendings",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /spendings/id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic YWxhZGRpbjpvcGVuc2VzYW1l",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8081/api/spendings/2?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"spendings",
+						"2"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,1 @@
+mvn clean deploy -DskipTests -DmuleDeploy -Dusername=xxx -Dpassword=xxx -Denvironment=Playground -Danypoint.platform.client_id=xxx -Danypoint.platform.client_secret=xxx -Dmule.env=dev -Dmule.key=xxx -Dserver=cloudhub -Dregion=us-east-2 -Dworkers=1 -DworkerType=MICRO -DappName=spending-eapi
