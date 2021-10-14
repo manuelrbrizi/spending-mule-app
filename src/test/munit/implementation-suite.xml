@@ -8,66 +8,200 @@
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 	<munit:config name="implementation-suite.xml" />
-	<munit:test name="add-spending-test" doc:id="539f8800-8022-4b4b-a74f-67b9b0f930d2" >
+	<munit:test name="get-spending-by-id-test" doc:id="de6c4c7f-da17-4445-9027-a8b5001808c5" >
 		<munit:behavior >
-			<munit:set-event doc:name="Set Input" doc:id="ec379c8c-fc6b-49a3-9a4e-7a2a8888baef" >
-				<munit:payload value="#[output application/java --- readUrl('classpath://addspendingtest/set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/java" />
-				<munit:attributes value="#[readUrl('classpath://addspendingtest/set-event_attributes.dwl')]" />
+			<munit-tools:spy doc:name="Spy Transform Message" doc:id="00e3e2c2-d56c-4931-83a7-21ca26b5aea9" processor="ee:transform">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="3da37f04-fb29-4a8c-a852-185b4f3aa0d1" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:before-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="6714f0cf-d94c-4910-bc8b-b769d38a4b7d" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import getspendingbyidtest::spy_assert_payload
+---
+spy_assert_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:before-call>
+				<munit-tools:after-call >
+					<munit-tools:assert doc:name="Assert payload" doc:id="806d6a9c-a0a6-4685-acd8-8a56d6da05ac" message="The payload does not match">
+						<munit-tools:that ><![CDATA[#[%dw 2.0
+import getspendingbyidtest::spy_assert_payload1
+---
+spy_assert_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+					</munit-tools:assert>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit:set-event doc:name="Set Input" doc:id="3980ce57-6a9d-4932-9a44-6902d1091fe6" >
+				<munit:payload value="#[readUrl('classpath://getspendingbyidtest/set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getspendingbyidtest/set-event_attributes.dwl')]" />
 				<munit:variables >
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://addspendingtest/set-event_variable_.dwl')]" />
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getspendingbyidtest/set-event_variable_.dwl')]" />
 				</munit:variables>
 			</munit:set-event>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to add-spending" doc:id="b6e19f75-35de-4267-a13d-59d63b17ddfb" name="add-spending"/>
+			<flow-ref doc:name="Flow-ref to get-spending-by-id" doc:id="5d6f358d-58e1-4df8-a356-e6318df853aa" name="get-spending-by-id"/>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert doc:name="Assert payload" doc:id="ebd74826-cfb4-4d8f-873b-b64981bd14e2" message="The payload does not match">
+			<munit-tools:assert doc:name="Assert payload" doc:id="4fea61f8-5d6c-40eb-b509-9d72d4e9170a" message="The payload does not match">
 				<munit-tools:that ><![CDATA[#[%dw 2.0
-import addspendingtest::assert_expression_payload
+import getspendingbyidtest::assert_expression_payload
 ---
 assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
 			</munit-tools:assert>
-			<munit-tools:verify-call doc:name="Verify spending" doc:id="57493551-5dd2-4585-a751-4e6cc0d19265" processor="db:insert" times="1">
+			<munit-tools:verify-call doc:name="Verify at least one" doc:id="ea6b283a-5b89-4bda-896a-10da72c9de61" processor="validation:is-not-empty-collection" times="1">
 				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="0cfe4b76-7c0a-4e89-971a-3c5588931614" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="433b5f31-fd2e-4e49-9b31-79c96dfe472c" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
-			<munit-tools:verify-call doc:name="Verify Successfuly added spending" doc:id="8326bf42-401d-423f-a1a8-5718665f220b" processor="set-payload" times="1">
+			<munit-tools:verify-call doc:name="Verify spending" doc:id="d01597b0-8149-492c-afd7-de9ceddc2644" processor="db:select" times="1">
 				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="1a090aa3-fe7a-4e53-ac56-72d6aad72c1d" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="53e32bbd-0102-4e20-b994-e7058004782e" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:verify-call doc:name="Verify Transform Message" doc:id="2cb09472-53e5-4b89-9fee-1647efdc4040" processor="ee:transform" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="3da37f04-fb29-4a8c-a852-185b4f3aa0d1" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
 	</munit:test>
-	<munit:test name="edit-spending-test" doc:id="e1aca687-788b-4f98-a6b2-6edbcaacb6eb" >
+	<munit:test name="get-all-spending-test" doc:id="7eddfef3-9fe7-4c67-9ac3-b0c380d3a51f" >
 		<munit:behavior >
-			<munit:set-event doc:name="Set Input" doc:id="abe374b2-f935-48af-9784-45943f8dfc38" >
-				<munit:payload value="#[output application/java --- readUrl('classpath://editspendingtest/set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/java" />
-				<munit:attributes value="#[readUrl('classpath://editspendingtest/set-event_attributes.dwl')]" />
+			<munit:set-event doc:name="Set Input" doc:id="f346792a-5e1e-47e6-94e8-b044b7363776" >
+				<munit:payload value="#[readUrl('classpath://getallspendingtest/set-event_payload1.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getallspendingtest/set-event_attributes1.dwl')]" />
 				<munit:variables >
-					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://editspendingtest/set-event_variable_.dwl')]" />
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getallspendingtest/set-event_variable_1.dwl')]" />
 				</munit:variables>
 			</munit:set-event>
 		</munit:behavior>
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to edit-spending" doc:id="f65ffc12-9cd7-491a-b174-106064e633df" name="edit-spending"/>
+			<flow-ref doc:name="Flow-ref to get-all-spending" doc:id="bb0bbb48-0018-4894-84d8-183f6563a0bb" name="get-all-spending"/>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert doc:name="Assert payload" doc:id="a442ba80-4f81-4889-acee-34003fad309a" message="The payload does not match">
+			<munit-tools:verify-call doc:name="Verify at least one" doc:id="c9df1aad-c384-457e-8ba9-10a0c2f0520e" processor="validation:is-not-empty-collection" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="53830216-182f-4ccc-8119-98d485a70216" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:verify-call doc:name="Verify spending" doc:id="5ae799c9-b21c-4327-8cfc-26aa05594660" processor="db:select" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="73e1b82d-4fe7-4266-96ac-6122e20222b0" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="delete-spending-test" doc:id="1bacddd1-286f-4f23-9b74-ee20d5bcc414" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock spending" doc:id="8eebefa5-9b16-4891-9e5a-7fd60c97d4ba" processor="db:delete">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="915d7ecd-4326-4dbe-954d-c442762fcdfe" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java --- readUrl('classpath://deletespendingtest/mock_payload.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://deletespendingtest/mock_variable_.dwl')]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="f6cac34c-07a0-405f-b0c7-d3d2a740e159" >
+				<munit:payload value="#[readUrl('classpath://deletespendingtest/set-event_payload1.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://deletespendingtest/set-event_attributes1.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://deletespendingtest/set-event_variable_1.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to delete-spending" doc:id="52b0fbaf-61b4-45e3-9e62-fca8386fccd2" name="delete-spending"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="248035dc-1f71-45f3-869e-6139675b4e42" message="The payload does not match">
 				<munit-tools:that ><![CDATA[#[%dw 2.0
-import editspendingtest::assert_expression_payload
+import deletespendingtest::assert_expression_payload1
 ---
-assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+assert_expression_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
 			</munit-tools:assert>
-			<munit-tools:verify-call doc:name="Verify spending" doc:id="39030c64-2b86-46c8-99cf-9050322fc6a1" processor="db:update" times="1">
+			<munit-tools:verify-call doc:name="Verify Successfuly deleted spending" doc:id="3fc00e9c-6fe9-419a-aa83-992544b046d1" processor="set-payload" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="e4ec61fc-c28d-4881-b65a-797bcff26b7f" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="edit-spending-test" doc:id="7db502d3-9098-42cc-b903-4ba5adfcf311" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock spending" doc:id="8989aff3-65f8-427a-af5f-9e40863de71d" processor="db:update">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="0e7a7a21-5ee9-46d0-a613-1198536ef77e" attributeName="doc:id" />
 				</munit-tools:with-attributes>
-			</munit-tools:verify-call>
-			<munit-tools:verify-call doc:name="Verify Successfuly updated spending" doc:id="716145f9-0384-4106-92d8-4ca5c4df78b5" processor="set-payload" times="1">
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java --- readUrl('classpath://editspendingtest/mock_payload.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://editspendingtest/mock_variable_.dwl')]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="4a2df4d5-8d48-49cf-a8c4-9a779004a088" >
+				<munit:payload value="#[output application/java --- readUrl('classpath://editspendingtest/set-event_payload1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				<munit:attributes value="#[readUrl('classpath://editspendingtest/set-event_attributes1.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://editspendingtest/set-event_variable_1.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to edit-spending" doc:id="9c758223-74ad-4c37-921f-419ce38006ec" name="edit-spending"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="861cd5d8-2d30-4a1a-9b40-2b4951aa8e64" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import editspendingtest::assert_expression_payload1
+---
+assert_expression_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Successfuly updated spending" doc:id="95945387-11a0-4e79-a2bf-a9326f1ba48f" processor="set-payload" times="1">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="ec570143-b5ac-4482-bfd6-4447aa9a212e" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="add-spending-test" doc:id="1636246b-6c1f-48a0-9089-046e98cefee1" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock spending" doc:id="a81a2573-ef3f-4168-b80d-f20581146624" processor="db:insert">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0cfe4b76-7c0a-4e89-971a-3c5588931614" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java --- readUrl('classpath://addspendingtest/mock_payload.dwl')]" mediaType="application/java" encoding="UTF-8" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://addspendingtest/mock_variable_.dwl')]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="088bf34f-e3ad-43a8-ab35-fd72a1ca3e4d" >
+				<munit:payload value="#[output application/java --- readUrl('classpath://addspendingtest/set-event_payload1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				<munit:attributes value="#[readUrl('classpath://addspendingtest/set-event_attributes1.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://addspendingtest/set-event_variable_1.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to add-spending" doc:id="15988d43-1e4e-4e57-8ccc-0a0928ce2a0f" name="add-spending"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="ac094939-d408-4367-b8b3-f93e18b82f24" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import addspendingtest::assert_expression_payload1
+---
+assert_expression_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+			<munit-tools:verify-call doc:name="Verify Successfuly added spending" doc:id="06684574-6bb3-4736-9ccb-6609b4cbc4fd" processor="set-payload" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="1a090aa3-fe7a-4e53-ac56-72d6aad72c1d" attributeName="doc:id" />
 				</munit-tools:with-attributes>
 			</munit-tools:verify-call>
 		</munit:validation>
