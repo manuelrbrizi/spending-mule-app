@@ -1,0 +1,43 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Mule Action
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  #push:
+  #  branches: [ master ]
+  #pull_request:
+  #  branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+            
+      - name: Deploy to CloudHub
+        uses: manuelrbrizi/mule-deploy-action@main
+        with:
+          mvnParams: -Dmule.env=dev -Dregion=us-east-2
+          #MULE_ENV: dev
+          #MULE_REGION: us-east-2
+          #MULE_WORKERS: 1
+          #MULE_WORKERTYPE: MICRO
+          #MULE_APPNAME: spending-git
+          #MULE_KEY: ${{ secrets.MULE_KEY }}
+          #MULE_ENVIRONMENT: Playground
+          #MULE_BUSINESS_GROUP: Enablement
+          MULE_USERNAME: ${{ secrets.USERNAME }}
+          MULE_PASSWORD: ${{ secrets.PASSWORD }}
+          MULE_REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
+          MULE_REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
+          #ANYPOINT_CLIENT_ID: bf33dc4194314f37a3c80c83e8d4162a
+          #ANYPOINT_CLIENT_SECRET: ${{ secrets.ANYPOINT_CLIENT_SECRET }}
