@@ -26,18 +26,9 @@ jobs:
       - name: Deploy to CloudHub
         uses: manuelrbrizi/mule-deploy-action@main
         with:
-          mvnParams: -Dmule.env=dev -Dregion=us-east-2
-          #MULE_ENV: dev
-          #MULE_REGION: us-east-2
-          #MULE_WORKERS: 1
-          #MULE_WORKERTYPE: MICRO
-          #MULE_APPNAME: spending-git
-          #MULE_KEY: ${{ secrets.MULE_KEY }}
-          #MULE_ENVIRONMENT: Playground
-          #MULE_BUSINESS_GROUP: Enablement
-          MULE_USERNAME: ${{ secrets.USERNAME }}
-          MULE_PASSWORD: ${{ secrets.PASSWORD }}
-          MULE_REPO_USERNAME: ${{ secrets.REPO_USERNAME }}
-          MULE_REPO_PASSWORD: ${{ secrets.REPO_PASSWORD }}
-          #ANYPOINT_CLIENT_ID: bf33dc4194314f37a3c80c83e8d4162a
-          #ANYPOINT_CLIENT_SECRET: ${{ secrets.ANYPOINT_CLIENT_SECRET }}
+          testParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }}
+          deployParams: -Dusername=${{ secrets.USERNAME }} -Dpassword=${{ secrets.PASSWORD }} -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dserver=cloudhub -Dregion=us-east-2 -Dworkers=1 -DworkerType=MICRO -DappName=spending-git -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -Denvironment=Playground
+          muleUsername: ${{ secrets.USERNAME }}
+          mulePassword: ${{ secrets.PASSWORD }}
+          nexusUsername: ${{ secrets.REPO_USERNAME }}
+          nexusPassword: ${{ secrets.REPO_PASSWORD }}
