@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>8047b9c3-dd3a-4b49-b414-136f87448c77</groupId>
@@ -11,7 +9,7 @@
 
 	<groupId>8047b9c3-dd3a-4b49-b414-136f87448c77</groupId>
 	<artifactId>spending-eapi-impl</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>1.0.3</version>
 	<packaging>mule-application</packaging>
 
 	<name>spending-api</name>
@@ -28,7 +26,7 @@
 		<developerConnection>scm:git:git@github.com:manuelrbrizi/spending-mule-app.git</developerConnection>
 		<connection>scm:git:git@github.com:manuelrbrizi/spending-mule-app.git</connection>
         <url>https://github.com/manuelrbrizi/spending-mule-app</url>
-        <tag>@{project.version}</tag>
+        <tag>1.0.3</tag>
 	</scm>
 
 	<build>
