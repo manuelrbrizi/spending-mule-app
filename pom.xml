@@ -9,7 +9,7 @@
 
 	<groupId>8047b9c3-dd3a-4b49-b414-136f87448c77</groupId>
 	<artifactId>spending-eapi-impl</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.3-SNAPSHOT</version>
 	<packaging>mule-application</packaging>
 
 	<name>spending-api</name>
@@ -26,7 +26,7 @@
 		<developerConnection>scm:git:https://github.com/manuelrbrizi/spending-mule-app</developerConnection>
 		<connection>scm:git:https://github.com/manuelrbrizi/spending-mule-app</connection>
         <url>scm:git:https://github.com/manuelrbrizi/spending-mule-app</url>
-        <tag>1.0.3</tag>
+        <tag>HEAD</tag>
 	</scm>
 
 	<build>
