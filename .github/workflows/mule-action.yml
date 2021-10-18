@@ -32,3 +32,5 @@ jobs:
           mulePassword: ${{ secrets.PASSWORD }}
           nexusUsername: ${{ secrets.REPO_USERNAME }}
           nexusPassword: ${{ secrets.REPO_PASSWORD }}
+          deployToExchange: true
+          projectName: spending-eapi-mule-application
