@@ -81,7 +81,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Test Mule App
-        uses: manuelrbrizi/deploy-to-cloudhub-action/test/action.yml@main
+        uses: manuelrbrizi/deploy-to-cloudhub-action/test@main
         with:
           testParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }}
           
