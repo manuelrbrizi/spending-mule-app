@@ -12,15 +12,6 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-    inputs:
-      releaseVersion:
-        description: "Default version to use when preparing a release."
-        required: true
-        default: "X.Y.Z"
-      developmentVersion:
-        description: "Default version to use for new local working copy."
-        required: true
-        default: "X.Y.Z-SNAPSHOT"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -92,13 +83,5 @@ jobs:
         with:
           testParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }}
           deployParams: -Dusername=${{ secrets.USERNAME }} -Dpassword=${{ secrets.PASSWORD }} -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dserver=cloudhub -Dregion=us-east-2 -Dworkers=1 -DworkerType=MICRO -DappName=spending-git -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -Denvironment=Playground
-          muleUsername: ${{ secrets.USERNAME }}
-          mulePassword: ${{ secrets.PASSWORD }}
-          nexusUsername: ${{ secrets.REPO_USERNAME }}
-          nexusPassword: ${{ secrets.REPO_PASSWORD }}
-          gitUsername: ${{ secrets.USERNAME }}
-          gitToken: ${{ secrets.GIT_TOKEN }}
-          developmentVersion: ${{ github.event.inputs.developmentVersion }}
-          releaseVersion: ${{ github.event.inputs.releaseVersion }}
-          deployToExchange: false
+          deployToExchange: true
           projectName: spending-eapi-impl
