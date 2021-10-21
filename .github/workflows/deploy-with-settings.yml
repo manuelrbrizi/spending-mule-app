@@ -79,7 +79,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-   
+      - uses: actions/checkout@v2
       - name: Test Mule App
         uses: manuelrbrizi/deploy-to-cloudhub-action/test/action.yml@main
         with:
@@ -93,7 +93,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-   
+      - uses: actions/checkout@v2
       - name: deployToExchange
         uses: manuelrbrizi/deploy-to-cloudhub-action/deployToExchange/action.yml@main
         with:
@@ -107,7 +107,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-   
+      - uses: actions/checkout@v2
       - name: deployToCloudhub
         uses: manuelrbrizi/deploy-to-cloudhub-action/deployToCloudhub/action.yml@main
         with:
