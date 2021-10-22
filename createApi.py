@@ -16,7 +16,10 @@ def parse_argument():
 def loadSpecFile(fileDir):
 	try:
 		file = open(fileDir,)
+		print(file)
+		print("----")
 		data = json.load(file)
+		print(data)
 		if(data['changeSpecification']):
 			data = data['data']
 		else:
