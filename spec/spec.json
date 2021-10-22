@@ -1,0 +1,19 @@
+{
+      "endpoint":{
+         "deploymentType":"CH",
+         "isCloudHub":null,
+         "muleVersion4OrAbove":true,
+         "proxyUri":null,
+         "referencesUserDomain":null,
+         "responseTimeout":null,
+         "type":"raml",
+         "uri":null
+      },
+      "providerId":null,
+      "instanceLabel":null,
+      "spec":{
+         "assetId":"spending-eapi",
+         "groupId":"${{ secrets.ORGID }}",
+         "version":"1.0.10"
+      }
+}
