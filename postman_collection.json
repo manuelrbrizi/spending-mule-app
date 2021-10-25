@@ -7,6 +7,19 @@
 	"item": [
 		{
 			"name": "POST /spendings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {",
+							"  pm.expect(pm.response.code).to.eql(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -29,7 +42,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://spending-git.us-e2.cloudhub.io/api/spendings/api/spendings",
+					"raw": "http://spending-git.us-e2.cloudhub.io/api/spendings",
 					"protocol": "http",
 					"host": [
 						"spending-git",
@@ -39,8 +52,6 @@
 					],
 					"path": [
 						"api",
-						"spendings",
-						"api",
 						"spendings"
 					]
 				}
@@ -49,6 +60,19 @@
 		},
 		{
 			"name": "PUT /spendings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -87,6 +111,19 @@
 		},
 		{
 			"name": "GET /spendings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {
 					"accept": true
@@ -120,6 +157,19 @@
 		},
 		{
 			"name": "GET /spendings/id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -149,6 +199,19 @@
 		},
 		{
 			"name": "DELETE /spendings/id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [
