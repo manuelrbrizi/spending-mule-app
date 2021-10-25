@@ -146,7 +146,7 @@ jobs:
 
   deployApiManager:
     name: Deploy to API Manager
-    needs: [deployXC]
+    #needs: [deployXC]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -163,7 +163,7 @@ jobs:
           
   newmanTesting:
     name: Newman Integration testing
-    needs: [deployCH]
+    #needs: [deployCH]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
