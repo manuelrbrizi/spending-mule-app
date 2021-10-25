@@ -158,7 +158,8 @@ jobs:
         with:
           ORGID: ${{ secrets.ORGID }}
           ENVID: ${{ secrets.ENVID }}
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           
   newmanTesting:
     name: Newman Integration testing
