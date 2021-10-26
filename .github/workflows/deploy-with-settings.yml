@@ -118,7 +118,7 @@ jobs:
           
   deployXC:
     name: Deploy to Exchange
-    needs: [createSettings, test, updateVersion]
+    needs: [createSettings, sonarQubeTest, updateVersion]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -132,7 +132,7 @@ jobs:
           
   deployCH:
     name: Deploy to CloudHub
-    needs: [createSettings, test, updateVersion]
+    needs: [createSettings, sonarQubeTest, updateVersion]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
