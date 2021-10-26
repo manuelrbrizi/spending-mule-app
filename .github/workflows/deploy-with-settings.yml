@@ -174,3 +174,16 @@ jobs:
         uses: manuelrbrizi/deploy-to-cloudhub-action/newman@main
         with:
           collectionName: postman_collection.json
+          
+  sonarQubeTest:
+    name: SonarQube code testing
+    #needs: [deployCH]
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - uses: actions/checkout@v2
+      - name: sonarQubeTesting
+        uses: manuelrbrizi/deploy-to-cloudhub-action/sonarqube@main
+        with:
+          sourcesPath: src/main/mule
