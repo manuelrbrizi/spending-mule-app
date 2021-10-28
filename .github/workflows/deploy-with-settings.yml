@@ -84,7 +84,6 @@ jobs:
         uses: manuelrbrizi/deploy-to-cloudhub-action/test@main
         with:
           testParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }}
-          publishReport: true
           
   #testPublish:
   #  name: Publish test report
