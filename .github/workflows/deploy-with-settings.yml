@@ -84,24 +84,25 @@ jobs:
         uses: manuelrbrizi/deploy-to-cloudhub-action/test@main
         with:
           testParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }}
+          publishReport: true
           
-  testPublish:
-    name: Publish test report
-    needs: [test]
+  #testPublish:
+  #  name: Publish test report
+  #  needs: [test]
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+  #  runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - name: Download tests.xml
-        uses: actions/download-artifact@v2
-        with:
-          name: tests
-          
-      - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        with:
-          files: tests.xml
+  #  steps:
+  #    - name: Download tests.xml
+  #      uses: actions/download-artifact@v2
+  #      with:
+  #        name: tests
+  #        
+   #   - name: Publish Unit Test Results
+   #     uses: EnricoMi/publish-unit-test-result-action@v1
+   #     with:
+   #       files: tests.xml
           
   updateVersion:
     name: Update release version
@@ -111,13 +112,12 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
       - name: Test Mule App
         uses: manuelrbrizi/deploy-to-cloudhub-action/updateVersion@main
           
   deployXC:
     name: Deploy to Exchange
-    needs: [updateVersion]
+    needs: [updateVersion, sonarQubeTest]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -131,7 +131,7 @@ jobs:
           
   deployCH:
     name: Deploy to CloudHub
-    needs: [updateVersion]
+    needs: [updateVersion, sonarQubeTest]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
