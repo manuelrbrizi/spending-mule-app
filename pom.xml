@@ -11,7 +11,7 @@
 
 	<groupId>8047b9c3-dd3a-4b49-b414-136f87448c77</groupId>
 	<artifactId>spending-eapi-impl</artifactId>
-	<version>1.0.28</version>
+	<version>1.0.29</version>
 	<packaging>mule-application</packaging>
 
 	<name>spending-api</name>
