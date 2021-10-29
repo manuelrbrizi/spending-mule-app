@@ -105,7 +105,7 @@ jobs:
           
   updateVersion:
     name: Update release version
-    needs: [createSettings] #[sonarQubeTest]
+    needs: [sonarQubeTest] #[sonarQubeTest]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -116,13 +116,12 @@ jobs:
           
   deployXC:
     name: Deploy to Exchange
-    needs: [updateVersion, sonarQubeTest]
+    needs: [updateVersion]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
       - name: deployToExchange
         uses: manuelrbrizi/deploy-to-cloudhub-action/deployToExchange@main
         with:
@@ -130,13 +129,12 @@ jobs:
           
   deployCH:
     name: Deploy to CloudHub
-    needs: [updateVersion, sonarQubeTest]
+    needs: [updateVersion]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
       - name: deployToCloudhub
         uses: manuelrbrizi/deploy-to-cloudhub-action/deployToCloudhub@main
         with:
@@ -151,7 +149,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
       - name: deployToAPIManager
         uses: manuelrbrizi/deploy-to-cloudhub-action/apiManager@main
         with:
@@ -168,7 +165,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
       - name: newmanIntegrationTesting
         uses: manuelrbrizi/deploy-to-cloudhub-action/newman@main
         with:
@@ -181,7 +177,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
       - name: sonarQubeTesting
         uses: manuelrbrizi/deploy-to-cloudhub-action/sonarqube@main
         with:
