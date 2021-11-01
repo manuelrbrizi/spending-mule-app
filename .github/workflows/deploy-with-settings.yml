@@ -52,8 +52,8 @@ jobs:
             },
             {
               "id": "mulesoft-releases",
-              "username": "~~~Token~~~",
-              "password": "${{ env.ACCESS_TOKEN }}"
+              "username": "${{ secrets.USERNAME }}",
+              "password": "${{ secrets.PASSWORD }}"
             },
             {
               "id": "MuleRepository",
