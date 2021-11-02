@@ -180,7 +180,9 @@ jobs:
           
       - run: |
           echo "API_ID=$(cat apiId.txt)" >> $GITHUB_ENV
+          cat apiId.txt
           echo ${{ env.API_ID }}
+          ls -l
           
   newmanTesting:
     name: Newman Integration testing
