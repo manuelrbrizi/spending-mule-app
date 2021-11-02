@@ -88,7 +88,7 @@ jobs:
       - name: Test Mule App
         uses: manuelrbrizi/deploy-to-cloudhub-action/test@main
         with:
-          testParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }}
+          testParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dapi.id=00000000
           
   #testPublish:
   #  name: Publish test report
