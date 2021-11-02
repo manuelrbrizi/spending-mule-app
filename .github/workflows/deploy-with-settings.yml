@@ -103,7 +103,7 @@ jobs:
         
   buildJar:
     name: Build project and export JAR
-    needs: [deployApiManager] #[updateVersion]
+    needs: [updateVersion]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -140,7 +140,7 @@ jobs:
           
   deployApiManager:
     name: Deploy to API Manager
-    needs: [createSettings]
+    needs: [buildJar]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
