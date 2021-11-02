@@ -15,5 +15,5 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 		<secure-properties:encrypt algorithm="Blowfish" />
 	</secure-properties:config>
 	<configuration-properties doc:name="Configuration properties" doc:id="7923484d-1e9c-4395-a1d1-758c3d662fdb" file="properties/${mule.env}-properties.yaml" />
-	<api-gateway:autodiscovery apiId="17374185" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="111b0ec5-7ec7-4304-acd9-ffe451c1f8c3" flowRef="spending-api-main" />
+	<api-gateway:autodiscovery apiId="${api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="111b0ec5-7ec7-4304-acd9-ffe451c1f8c3" flowRef="spending-api-main" />
 </mule>
