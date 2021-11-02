@@ -90,24 +90,6 @@ jobs:
         with:
           testParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dapi.id=00000000
           
-  #testPublish:
-  #  name: Publish test report
-  #  needs: [test]
-    # The type of runner that the job will run on
-  #  runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-  #  steps:
-  #    - name: Download tests.xml
-  #      uses: actions/download-artifact@v2
-  #      with:
-  #        name: tests
-  #        
-   #   - name: Publish Unit Test Results
-   #     uses: EnricoMi/publish-unit-test-result-action@v1
-   #     with:
-   #       files: tests.xml
-          
   updateVersion:
     name: Update release version
     needs: [sonarQubeTest] #[sonarQubeTest]
@@ -164,7 +146,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
       - name: deployToAPIManager
         id: api-manager
         uses: manuelrbrizi/deploy-to-cloudhub-action/apiManager@main
