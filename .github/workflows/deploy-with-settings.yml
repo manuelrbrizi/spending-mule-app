@@ -133,6 +133,15 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Download apiId.txt
+        uses: actions/download-artifact@v2
+        with:
+          name: apiId
+          
+      - run: |
+          echo "API_ID=$(cat apiId.txt)" >> $GITHUB_ENV
+          cat apiId.txt
+
       - name: deployToCloudhub
         uses: manuelrbrizi/deploy-to-cloudhub-action/deployToCloudhub@main
         with:
@@ -154,17 +163,6 @@ jobs:
           ENVID: ${{ secrets.ENVID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-          
-      - name: Download apiId.txt
-        uses: actions/download-artifact@v2
-        with:
-          name: apiId
-          
-      - run: |
-          echo "API_ID=$(cat apiId.txt)" >> $GITHUB_ENV
-          cat apiId.txt
-          echo ${{ env.API_ID }}
-          ls -l
           
   newmanTesting:
     name: Newman Integration testing
