@@ -141,9 +141,7 @@ jobs:
       #- run: |
       #    echo "API_ID=$(cat apiId.txt)" >> $GITHUB_ENV
       #    cat apiId.txt
-      - run: |
-          echo "API_ID=${{ needs.deployApiManager.outputs.apiId }}" >> $GITHUB_ENV
-          echo ${{ needs.deployApiManager.outputs.apiId }}
+      
       - name: deployToCloudhub
         uses: manuelrbrizi/deploy-to-cloudhub-action/deployToCloudhub@main
         with:
@@ -165,6 +163,10 @@ jobs:
           ENVID: ${{ secrets.ENVID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          
+      - run: |
+          echo "API_ID=${{ steps.api-manager.outputs.apiId }}" >> $GITHUB_ENV
+          echo ${{ steps.api-manager.outputs.apiId }}
           
   newmanTesting:
     name: Newman Integration testing
