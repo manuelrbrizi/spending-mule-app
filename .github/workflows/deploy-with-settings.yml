@@ -133,15 +133,6 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      #- name: Download apiId.txt
-      #  uses: actions/download-artifact@v2
-      #  with:
-      #    name: apiId
-          
-      #- run: |
-      #    echo "API_ID=$(cat apiId.txt)" >> $GITHUB_ENV
-      #    cat apiId.txt
-      
       - name: deployToCloudhub
         uses: manuelrbrizi/deploy-to-cloudhub-action/deployToCloudhub@main
         with:
@@ -149,7 +140,7 @@ jobs:
           
   deployApiManager:
     name: Deploy to API Manager
-    #needs: [buildJar]
+    needs: [buildJar]
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
