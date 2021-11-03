@@ -128,6 +128,8 @@ jobs:
   deployCH:
     name: Deploy to CloudHub
     needs: [buildJar]
+    environment:
+      name: playground
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -147,6 +149,21 @@ jobs:
         with:
           deployParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dapi.id=${{ env.API_ID }} -Dserver=cloudhub -Dregion=us-east-2 -Dworkers=1 -DworkerType=MICRO -DappName=spending-git -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -Dclient.app.id=${{ secrets.APP_CLIENT_ID }} -Dclient.app.secret=${{ secrets.APP_CLIENT_SECRET }} -Denvironment=Playground
           
+  deployDemo:
+    name: Deploy to Prod
+    needs: [deployCH]
+    environment:
+      name: demo
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: deployToCloudhub
+        uses: manuelrbrizi/deploy-to-cloudhub-action/deployToCloudhub@main
+        with:
+          deployParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dapi.id=00000000 -Dserver=cloudhub -Dregion=us-east-2 -Dworkers=1 -DworkerType=MICRO -DappName=spending-git -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -Dclient.app.id=${{ secrets.APP_CLIENT_ID }} -Dclient.app.secret=${{ secrets.APP_CLIENT_SECRET }} -Denvironment=Demo
+  
   deployApiManager:
     name: Deploy to API Manager
     needs: [createSettings]
