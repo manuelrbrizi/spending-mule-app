@@ -142,8 +142,8 @@ jobs:
       #    echo "API_ID=$(cat apiId.txt)" >> $GITHUB_ENV
       #    cat apiId.txt
       - run: |
-          echo "API_ID=${{ jobs.deployApiManager.outputs.apiId }}" >> $GITHUB_ENV
-          echo ${{ jobs.deployApiManager.outputs.apiId }}
+          echo "API_ID=${{ needs.deployApiManager.outputs.apiId }}" >> $GITHUB_ENV
+          echo ${{ needs.deployApiManager.outputs.apiId }}
       - name: deployToCloudhub
         uses: manuelrbrizi/deploy-to-cloudhub-action/deployToCloudhub@main
         with:
