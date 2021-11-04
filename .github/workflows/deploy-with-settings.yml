@@ -162,7 +162,7 @@ jobs:
       - name: deployToCloudhub
         uses: manuelrbrizi/deploy-to-cloudhub-action/deployToCloudhub@main
         with:
-          deployParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dapi.id=00000000 -Dserver=cloudhub -Dregion=us-east-2 -Dworkers=1 -DworkerType=MICRO -DappName=spending-git -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -Dclient.app.id=${{ secrets.APP_CLIENT_ID }} -Dclient.app.secret=${{ secrets.APP_CLIENT_SECRET }} -Denvironment=Demo
+          deployParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dapi.id=00000000 -Dserver=cloudhub -Dregion=us-east-2 -Dworkers=1 -DworkerType=MICRO -DappName=spending-demo -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -Dclient.app.id=${{ secrets.APP_CLIENT_ID }} -Dclient.app.secret=${{ secrets.APP_CLIENT_SECRET }} -Denvironment=Playground #-Denvironment=Demo
   
   deployApiManager:
     name: Deploy to API Manager
@@ -180,7 +180,7 @@ jobs:
           ENVID: ${{ secrets.ENVID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-          
+  
   newmanTesting:
     name: Newman Integration testing
     needs: [deployCH]
