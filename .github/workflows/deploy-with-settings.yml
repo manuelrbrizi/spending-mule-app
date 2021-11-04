@@ -180,6 +180,7 @@ jobs:
           ENVID: ${{ secrets.ENVID }}
           CLIENT_ID: ${{ secrets.CLIENT_ID }}
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          specPath: spec/spec.json
   
   newmanTesting:
     name: Newman Integration testing
