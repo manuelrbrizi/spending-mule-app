@@ -1,5 +1,6 @@
 {
    "providerId":null,
+   "changeSpecification": true,
    "data":{
       "instanceLabel": "demo api",
       "spec":{
