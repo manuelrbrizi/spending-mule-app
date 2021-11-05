@@ -1,4 +1,4 @@
-name: Deploy with settings.xml
+name: Test, Build & Deploy to CH
 on:
   workflow_dispatch:
 
