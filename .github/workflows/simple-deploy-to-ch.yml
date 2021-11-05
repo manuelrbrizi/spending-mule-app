@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test Mule App
-        uses: manuelrbrizi/deploy-to-cloudhub-action/test@main
+        uses: manuelrbrizi/deploy-to-cloudhub-action/testWithoutReports@main
         with:
           testParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dapi.id=00000000
         
@@ -89,4 +89,4 @@ jobs:
       - name: deployToCloudhub
         uses: manuelrbrizi/deploy-to-cloudhub-action/deployToCloudhub@main
         with:
-          deployParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dapi.id=${{ env.API_ID }} -Dserver=cloudhub -Dregion=us-east-2 -Dworkers=1 -DworkerType=MICRO -DappName=spending-git -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -Dclient.app.id=${{ secrets.APP_CLIENT_ID }} -Dclient.app.secret=${{ secrets.APP_CLIENT_SECRET }} -Denvironment=Playground
+          deployParams: -Dmule.env=dev -Dmule.key=${{ secrets.MULE_KEY }} -Dapi.id=17374504 -Dserver=cloudhub -Dregion=us-east-2 -Dworkers=1 -DworkerType=MICRO -DappName=spending-git -Danypoint.platform.client_id=${{ secrets.ANYPOINT_CLIENT_ID }} -Danypoint.platform.client_secret=${{ secrets.ANYPOINT_CLIENT_SECRET }} -Dclient.app.id=${{ secrets.APP_CLIENT_ID }} -Dclient.app.secret=${{ secrets.APP_CLIENT_SECRET }} -Denvironment=Playground
